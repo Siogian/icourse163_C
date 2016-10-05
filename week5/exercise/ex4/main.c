@@ -2,6 +2,7 @@
 int main()
 {
     int sum = 0, m;
+    printf("Input m:\n"); 
     scanf("%d", &m); 
     while(m != 0){    
         sum = sum + m;
