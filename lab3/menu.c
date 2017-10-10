@@ -100,7 +100,7 @@ int Add()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    printf("%3f + %3f = %3f\n", a, b, a + b);
+    printf("%f + %f = %f\n", a, b, a + b);
     return 0;
 }
 
@@ -112,7 +112,7 @@ int Sub()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    printf("%3f - %3f = %3f\n", a, b, a - b);
+    printf("%f - %f = %f\n", a, b, a - b);
     return 0;
 }
 
@@ -124,7 +124,7 @@ int Mult()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    printf("%3f * %3f = %3f\n", a, b, a * b);
+    printf("%f * %f = %f\n", a, b, a * b);
     return 0;
 }
 
@@ -136,6 +136,6 @@ int Divi()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    printf("%3f / %3f = %3f\n", a, b, a / b);
+    printf("%f / %f = %f\n", a, b, a / b);
     return 0;
 }
