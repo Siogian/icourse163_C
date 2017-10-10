@@ -1,107 +1,97 @@
-/*************************************************
- * FILE:   menu.c
- * MODULE: Menu
- * AUTHOR: Xiaojian
- * UPDATE: 2017/09/24
- *************************************************/
+/**************************************************************************************************/
+/* Copyright (C) wakeam.imwork.net, 2017                                                          */   
+/*                                                                                                */   
+/*  FILE NAME             :  menu.c                                                               */   
+/*  PRINCIPAL             :  LiangXiaojian                                                        */   
+/*  SUBSYSTEM NAME        :  menu                                                                 */   
+/*  MODULE NAME           :  nemu                                                                 */
+/*  LANGUAGE              :  C                                                                    */   
+/*  TARGET ENVIRONMENT    :  Any                                                                  */   
+/*  DATE OF FIRST RELEASE :  2017/10/09                                                           */   
+/*  DESCRIPTION           :  main for menu program                                                */   
+/**************************************************************************************************/
 
 /*
- * last update 2017/10/08 by xiaojian
+ * Revision log:
+ * Create by LiangXiaojian, 2017/10/09
+ *
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include "linklist.h"
 
-#define CMD_MAX_NUM 128
+int Help();
+int Quit();
+int Restart();
+int Add();
+int Sub();
+int Mult();
+int Divi();
+
+#define CMD_MAX_LEN 128
 #define DESC_LEN    1024
 #define CMD_NUM     10
 
-void Help();
-float add();
-float sub();
-float mult();
-float divi();
-
-typedef struct DataNode
-{
-    char*  cmd;
-    char*  desc;
-    int    (*handler)();
-    struct DataNode* next;
-} tDataNode;
+/* menu program */
 
 static tDataNode head[] = 
 {
-    {"help", "This is a help cmd!", Help, &head[1]},
-    {"quit", "Close this app!", Quit, &head[2]},
-    {""}
-}
+    {"help", "this is help cmd!", Help, &head[1]},
+    {"version", "menu program v1.0", NULL, &head[2]},
+    {"quit", "quit from menu program.", Quit, &head[3]},
+    {"restart", "restart this menu program", Restart, &head[4]},
+    {"add", "a + b = ?", Add, &head[5]},
+    {"sub", "a - b = ?", Add, &head[6]},
+    {"mult", "a * b = ?", Add, &head[7]},
+    {"divi", "a / b = ?", Add, NULL}
+};
+
 int main()
 {
-    char cmd[128];
+    /* cmd line begins */
     while(1)
     {
-        printf("menu: ");
-        scanf("%s", cmd);
-	if(strcmp(cmd, "help") == 0)	
+        char cmd[CMD_MAX_LEN];
+	printf("input a cmd number > ");
+	scanf("%s", cmd);
+	tDataNode *p = FindCmd(head, cmd);
+	if(p == NULL)
 	{
-	    Help();
+	    printf("This is a wrong cmd!\n");
+	    continue;
 	}
-	else if(strcmp(cmd, "quit") == 0)
+	printf("%s - %s\n", p->cmd, p->desc);
+	if(p->handler != NULL)
 	{
-	    exit(0);
-	}
-	else if(strcmp(cmd, "version") == 0)
-	{
-	    printf("Version: 0.1.1\n");
-	}
-	else if(strcmp(cmd, "restart") == 0)
-	{
-	    printf("Shutdowm ......\n");
-	    sleep(1);
-	    printf("Start    ......\n");
-	    sleep(1);
-	    printf("OK !\n");
-	}
-        else if(strcmp(cmd, "add") == 0)
-	{
-	    printf("%f\n", add());
-	}
-        else if(strcmp(cmd, "sub") == 0)
-	{
-	    printf("%f\n", sub());
-	}
-        else if(strcmp(cmd, "mult") == 0)
-	{
-	    printf("%f\n", mult());
-	}
-        else if(strcmp(cmd, "divi") == 0)
-	{
-	    printf("%f\n", divi());
-	}
-	else
-	{
-	    printf("Wrong cmd!\n");
+	    p->handler();
 	}
     }
+}
+
+int Help()
+{
+    ShowAllCmd(head);
     return 0;
 }
 
-void Help()
+int Quit()
 {
-    printf("This is help cmd!\n\n");
-    printf("help    \tList all cmd!\n");
-    printf("quit    \tQuit this app!\n");
-    printf("version \tShow it's version!\n");
-    printf("restart \tRestart this app!\n");
-    printf("add     \ta + b.\n");
-    printf("sub     \ta - b.\n");
-    printf("mult    \ta * b.\n");
-    printf("divi    \ta / b.\n");
+    exit(0);
 }
 
-float add()
+int Restart()
+{
+    printf("Shutdowm ......\n");
+    sleep(1);
+    printf("Start    ......\n");
+    sleep(1);
+    printf("OK !\n");
+}
+
+int Add()
 {
     float a, b;
     printf("a + b\n");
@@ -109,9 +99,11 @@ float add()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    return a + b;
+    printf("%3f + %3f = %3f\n", a, b, a + b);
+    return 0;
 }
-float sub()
+
+int Sub()
 {
     float a, b;
     printf("a - b\n");
@@ -119,9 +111,11 @@ float sub()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    return a - b;
+    printf("%3f - %3f = %3f\n", a, b, a - b);
+    return 0;
 }
-float mult()
+
+int Mult()
 {
     float a, b;
     printf("a * b\n");
@@ -129,10 +123,11 @@ float mult()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    return a * b;
+    printf("%3f * %3f = %3f\n", a, b, a * b);
+    return 0;
 }
 
-float divi()
+int Divi()
 {
     float a, b;
     printf("a / b\n");
@@ -140,5 +135,6 @@ float divi()
     scanf("%f", &a);
     printf("input b:");
     scanf("%f", &b);
-    return a / b;
+    printf("%3f / %3f = %3f\n", a, b, a / b);
+    return 0;
 }
