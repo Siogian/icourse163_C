@@ -89,6 +89,7 @@ int Restart()
     printf("Start    ......\n");
     sleep(1);
     printf("OK !\n");
+    return 0;
 }
 
 int Add()
