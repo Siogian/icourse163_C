@@ -44,9 +44,9 @@ static tDataNode head[] =
     {"quit", "quit from menu program.", Quit, &head[3]},
     {"restart", "restart this menu program", Restart, &head[4]},
     {"add", "a + b = ?", Add, &head[5]},
-    {"sub", "a - b = ?", Add, &head[6]},
-    {"mult", "a * b = ?", Add, &head[7]},
-    {"divi", "a / b = ?", Add, NULL}
+    {"sub", "a - b = ?", Sub, &head[6]},
+    {"mult", "a * b = ?", Mult, &head[7]},
+    {"divi", "a / b = ?", Divi, NULL}
 };
 
 int main()
